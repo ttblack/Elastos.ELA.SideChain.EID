@@ -9,6 +9,7 @@ import (
 	"bytes"
 	"container/list"
 	"fmt"
+	"github.com/elastos/Elastos.ELA.SideChain.EID/log"
 	"sync"
 	"sync/atomic"
 	"time"
@@ -210,6 +211,7 @@ func (r *Routes) Start() {
 	if !atomic.CompareAndSwapInt32(&r.started, 0, 1) {
 		return
 	}
+	Infof("Dpos Routes Start \n")
 	go r.addrHandler()
 }
 
@@ -419,6 +421,7 @@ func (r *Routes) announceAddr() {
 
 func (r *Routes) handleDAddr(s *state, p IPeer, m *msg.DAddr) {
 	c, exists := s.peerCache[p]
+	Info("handleDAddr message", "p ", p)
 	if !exists {
 		Warnf("Received getdaddr message for unknown peer %s", p)
 		return
@@ -514,7 +517,7 @@ func (r *Routes) handleInv(s *state, p IPeer, m *msg.Inv) {
 		Warnf("Received inv message for unknown peer %s", p)
 		return
 	}
-
+	log.Info("Received Inv Message", p, m.CMD())
 	// Push GetData message according to the Inv message.
 	getData := msg.NewGetData()
 	for _, iv := range m.InvList {
@@ -551,6 +554,8 @@ func (r *Routes) handleInv(s *state, p IPeer, m *msg.Inv) {
 			Type: GetData,
 			Msg:  getDataBuf.Bytes(),
 		})
+
+		log.Info("Send GetData Message", p, m.CMD())
 	}
 }
 
@@ -608,6 +613,7 @@ func (r *Routes) verifyDAddr(s *state, m *msg.DAddr) error {
 
 // OnGetData handles the passed GetData message of the peer.
 func (r *Routes) OnGetData(p IPeer, m *msg.GetData) {
+	log.Info("Received On GetData Message", "peer: ", p)
 	for _, iv := range m.InvList {
 		switch iv.Type {
 		case msg.InvTypeAddress:
@@ -619,6 +625,7 @@ func (r *Routes) OnGetData(p IPeer, m *msg.GetData) {
 				Warnf("%s for DAddr not found", iv.Hash)
 				continue
 			}
+			log.Info("Send DAddr Message", "addr ", addr.PID)
 			addrBuf := new(bytes.Buffer)
 			addr.Serialize(addrBuf)
 			p.SendELAMessage(&ElaMsg{

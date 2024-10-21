@@ -231,7 +231,7 @@ func (p *Pbft) subscribeEvent() {
 			go p.network.UpdatePeers(peersInfo.CurrentPeers, peersInfo.NextPeers)
 		case dpos.ETNewPeer:
 			count := len(p.network.GetActivePeers())
-			log.Info("new peer accept", "active peer count", count)
+			log.Info("NEW P2P Peer", "active peer count", count)
 			height := p.chain.CurrentHeader().Number.Uint64()
 			cfg := p.chain.Config()
 			if cfg.PBFTBlock != nil && height >= cfg.PBFTBlock.Uint64()-cfg.PreConnectOffset && height < cfg.PBFTBlock.Uint64() {

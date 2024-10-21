@@ -119,6 +119,7 @@ func (n *Network) GetActivePeers() []p2p.Peer {
 }
 
 func (n *Network) notifyFlag(flag p2p.NotifyFlag) {
+	Info("Notify Flag: ", "flag", flag.String())
 	if flag == p2p.NFBadNetwork {
 		n.badNetworkChan <- true
 
@@ -128,6 +129,7 @@ func (n *Network) notifyFlag(flag p2p.NotifyFlag) {
 }
 
 func (n *Network) Start() {
+	Infof("Dpos Network P2P Server Start \n")
 	n.p2pServer.Start()
 
 	go func() {
@@ -307,11 +309,12 @@ func (n *Network) UpdatePeers(currentPeers []peer.PID, nextPeers []peer.PID) {
 }
 
 func (n *Network) handleMessage(pid peer.PID, msg elap2p.Message) {
+	fmt.Println("handle Dpos Message ", "pid ", pid.String(), "message ", msg.CMD())
 	n.messageQueue <- &messageItem{pid, msg}
 }
 
 func (n *Network) badNetwork() {
-	Info("badnet workd")
+	Info("badNetwork")
 	n.listener.OnBadNetwork()
 }
 

@@ -85,7 +85,6 @@ require (
 	github.com/howeyc/fsnotify v0.9.0 // indirect
 	github.com/howeyc/gopass v0.0.0-20190910152052-7cb4b85ec19c // indirect
 	github.com/itchyny/base58-go v0.1.0 // indirect
-	github.com/karalabe/xgo v0.0.0-20191115072854-c5ccff8648a7 // indirect
 	github.com/kr/pretty v0.3.0 // indirect
 	github.com/kr/text v0.2.0 // indirect
 	github.com/mattn/go-ieproxy v0.0.1 // indirect
@@ -106,3 +105,7 @@ require (
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 	gotest.tools/v3 v3.4.0 // indirect
 )
+
+replace github.com/elastos/Elastos.ELA v0.9.8-0.20230616040136-d11565a5f40d => github.com/ttblack/Elastos.ELA a54aad34352dd3d1ae70ba49d4ae92b664699523
+
+replace github.com/elastos/Elastos.ELA.SPV v0.1.1-0.20230616092453-d9497580c71b => github.com/ttblack/Elastos.ELA.SPV v0.0.4-0.20241024041328-e7472684645d

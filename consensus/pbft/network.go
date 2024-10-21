@@ -315,6 +315,7 @@ func (p *Pbft) GetSelfDutyIndex() int {
 
 func (p *Pbft) OnInv(id peer.PID, blockHash elacom.Uint256) {
 	if !p.dispatcher.IsProducer(p.account.PublicKeyBytes()) {
+		dpos.Errorf("OnInv Message self is not producer ", common.Bytes2Hex(p.account.PublicKeyBytes()))
 		return
 	}
 	if p.blockPool.HasBlock(blockHash) {

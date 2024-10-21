@@ -395,6 +395,7 @@ func New(ctx *node.ServiceContext, config *Config, node *node.Node) (*Ethereum, 
 				return engine.IsCurrent()
 			},
 			RelayAddr: func(iv *msg.InvVect, data interface{}) {
+				log.Info("Broad Inv Message", "type", iv.Type.String())
 				inv := msg.NewInv()
 				inv.AddInvVect(iv)
 
@@ -411,7 +412,7 @@ func New(ctx *node.ServiceContext, config *Config, node *node.Node) (*Ethereum, 
 					log.Error("decrypt address cipher error", "error:", err)
 					return
 				}
-				log.Info("AddDirectLinkPeer", "address:", addr)
+				log.Info("AddDirectLinkPeer", "address:", addr, "pid ", pid.String())
 				engine.AddDirectLinkPeer(pid, addr)
 			},
 		}
